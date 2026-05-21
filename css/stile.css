@@ -1,0 +1,1453 @@
+/* ============================================
+    STILE BASE (stile001.css)
+    ============================================ */
+
+/* Fonts stile001 */
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;1,300&display=swap');
+
+:root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --surface2: #1a1a24;
+    --border: #2a2a3a;
+    --accent: #7c6dfa;
+    --accent2: #fa6d8e;
+    --accent3: #6dfacc;
+    --text: #e8e8f0;
+    --text-muted: #888899;
+    --code-bg: #0d0d14;
+    --modal-overlay: rgba(5,5,10,0.85);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Background grid */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+    linear-gradient(rgba(124,109,250,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(124,109,250,0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+    transition: opacity 0.5s;
+}
+
+/* Glow orbs */
+body::after {
+    content: '';
+    position: fixed;
+    top: -200px; left: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(124,109,250,0.12) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+    transition: all 0.5s;
+}
+
+.glow-orb-2 {
+    position: fixed;
+    bottom: -150px; right: -150px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(250,109,142,0.10) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+    transition: all 0.5s;
+}
+
+/* Header */
+header {
+    position: relative;
+    z-index: 1;
+    padding: 64px 48px 40px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-end;
+    gap: 32px;
+    transition: all 0.5s;
+}
+
+.header-lambda {
+    font-family: 'Syne', sans-serif;
+    font-size: 120px;
+    font-weight: 800;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    opacity: 0.9;
+    user-select: none;
+    letter-spacing: -4px;
+    transition: all 0.5s;
+}
+
+.header-text h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: var(--text);
+    transition: all 0.5s;
+}
+
+.header-text p {
+    font-size: 15px;
+    color: var(--text-muted);
+    margin-top: 8px;
+    max-width: 520px;
+    line-height: 1.6;
+    transition: all 0.5s;
+}
+
+.badge {
+    display: inline-block;
+    background: linear-gradient(135deg, rgba(124,109,250,0.15), rgba(250,109,142,0.10));
+    border: 1px solid rgba(124,109,250,0.3);
+    color: var(--accent);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 2px;
+    margin-bottom: 12px;
+    display: inline-block;
+    transition: all 0.5s;
+}
+
+/* Main */
+main {
+    position: relative;
+    z-index: 1;
+    padding: 40px 48px 80px;
+    transition: all 0.5s;
+}
+
+/* Table container */
+.table-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: all 0.5s;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    transition: all 0.5s;
+}
+
+thead th {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 18px 24px;
+    text-align: left;
+    font-weight: 400;
+    transition: all 0.5s;
+}
+
+thead th:last-child {
+    text-align: center;
+    width: 100px;
+}
+
+tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.2s, border-color 0.5s;
+}
+
+tbody tr:last-child { border-bottom: none; }
+
+tbody tr:hover { background: rgba(124,109,250,0.04); }
+
+td {
+    padding: 20px 24px;
+    vertical-align: top;
+    transition: all 0.5s;
+}
+
+.td-concept {
+    width: 220px;
+}
+
+.concept-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.5s;
+}
+
+.concept-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    background: rgba(124,109,250,0.12);
+    color: var(--accent);
+    border: 1px solid rgba(124,109,250,0.2);
+    padding: 2px 7px;
+    border-radius: 2px;
+    letter-spacing: 0.5px;
+    transition: all 0.5s;
+}
+
+.concept-tag.green {
+    background: rgba(109,250,204,0.10);
+    color: var(--accent3);
+    border-color: rgba(109,250,204,0.2);
+}
+
+.concept-tag.pink {
+    background: rgba(250,109,142,0.10);
+    color: var(--accent2);
+    border-color: rgba(250,109,142,0.2);
+}
+
+.td-desc {
+    font-size: 14px;
+    color: #aaaabc;
+    line-height: 1.65;
+    transition: all 0.5s;
+}
+
+.td-desc code {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    background: rgba(124,109,250,0.10);
+    color: var(--accent);
+    padding: 1px 5px;
+    border-radius: 2px;
+    transition: all 0.5s;
+}
+
+.td-actions {
+    width: 100px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+/* Magnify button */
+.btn-magnify {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text-muted);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    font-size: 16px;
+}
+
+.btn-magnify:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(124,109,250,0.10);
+    box-shadow: 0 0 20px rgba(124,109,250,0.2);
+    transform: scale(1.08);
+}
+
+/* Modal overlay */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--modal-overlay);
+    z-index: 100;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    backdrop-filter: blur(6px);
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* Modal panel */
+.modal {
+    width: 780px;
+    max-width: 95vw;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(124,109,250,0.1);
+    transform: translateY(-100%);
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.modal-overlay.active .modal {
+    transform: translateY(0);
+}
+
+.modal-header {
+    padding: 22px 28px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--surface2);
+    flex-shrink: 0;
+    transition: all 0.5s;
+}
+
+.modal-header-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.modal-title-icon {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    transition: all 0.5s;
+}
+
+.modal-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    transition: all 0.5s;
+}
+
+.btn-close {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    transition: all 0.2s;
+    line-height: 1;
+}
+
+.btn-close:hover {
+    border-color: var(--accent2);
+    color: var(--accent2);
+    background: rgba(250,109,142,0.08);
+}
+
+.modal-body {
+    padding: 24px 28px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.modal-body pre {
+    margin: 0 !important;
+    border-radius: 4px !important;
+    font-size: 13.5px !important;
+    line-height: 1.7 !important;
+    background: var(--code-bg) !important;
+    border: 1px solid var(--border) !important;
+    transition: all 0.5s;
+}
+
+.modal-body code {
+    font-family: 'DM Mono', monospace !important;
+}
+
+/* Modal results */
+.modal-results {
+    border-top: 1px solid var(--border);
+    overflow-y: auto;
+    display: none;
+    flex-shrink: 0;
+    max-height: 280px;
+}
+
+.modal-results.visible { display: block; }
+
+.result-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent3);
+    padding: 10px 16px;
+    background: rgba(109,250,204,0.05);
+    border-bottom: 1px solid var(--border);
+    transition: all 0.5s;
+}
+
+.result-content {
+    padding: 16px;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.8;
+    background: var(--code-bg);
+    transition: all 0.5s;
+}
+
+.result-line {
+    display: flex;
+    gap: 12px;
+}
+
+.result-line .arrow {
+    color: var(--accent2);
+    flex-shrink: 0;
+    transition: all 0.5s;
+}
+
+.result-line .value {
+    color: var(--accent3);
+    transition: all 0.5s;
+}
+
+.result-line .label {
+    color: var(--text-muted);
+    font-size: 11px;
+}
+
+/* Modal footer */
+.modal-footer {
+    padding: 16px 28px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--surface2);
+    flex-shrink: 0;
+    transition: all 0.5s;
+}
+
+.footer-info {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-family: 'DM Mono', monospace;
+    transition: all 0.5s;
+}
+
+.btn-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: linear-gradient(135deg, var(--accent), #5a4de0);
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.3px;
+}
+
+.btn-toggle:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(124,109,250,0.4);
+}
+
+.btn-toggle.active {
+    background: linear-gradient(135deg, var(--accent2), #d44060);
+}
+
+.btn-toggle-icon {
+    font-size: 15px;
+    transition: transform 0.3s;
+    display: inline-block;
+}
+
+.btn-toggle.active .btn-toggle-icon {
+    transform: rotate(180deg);
+}
+
+
+/* ============================================
+    STILE ALTERNATIVO (theme-002)
+    Attivato dalla classe .theme-002 sul body
+    ============================================ */
+
+body.theme-002 {
+    --bg: #000800;
+    --surface: #010f01;
+    --surface2: #0b1f0b;
+    --surface3: #0d2e0d;
+    --border: #1a4d1a;
+    --border-bright: #33ff33;
+    --accent: #33ff33;
+    --accent-dim: #1aaa1a;
+    --accent-bright: #99ff99;
+    --accent-hi: #ccffcc;
+    --text: #33ff33;
+    --text-muted: #1f7a1f;
+    --text-dim: #0f4d0f;
+    --code-bg: #000f00;
+    --modal-overlay: rgba(0,4,0,0.88);
+    --glow: 0 0 8px rgba(51,255,51,0.6), 0 0 20px rgba(51,255,51,0.2);
+    --glow-sm: 0 0 6px rgba(51,255,51,0.5);
+    
+    font-family: 'Share Tech Mono', monospace;
+}
+
+/* Scanlines overlay per theme-002 */
+body.theme-002::before {
+    background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.18) 2px,
+    rgba(0,0,0,0.18) 4px
+    );
+}
+
+/* Phosphor vignette per theme-002 */
+body.theme-002::after {
+    background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.7) 100%);
+}
+
+body.theme-002 .glow-orb-2 {
+    display: none;
+}
+
+/* Header theme-002 */
+body.theme-002 header {
+    padding: 48px 48px 36px;
+}
+
+body.theme-002 .header-lambda {
+    font-family: 'VT323', monospace;
+    font-size: 130px;
+    line-height: 1;
+    color: var(--accent);
+    text-shadow: var(--glow);
+    user-select: none;
+    letter-spacing: -2px;
+    animation: flicker 8s infinite;
+    background: none;
+    -webkit-background-clip: unset;
+    -webkit-text-fill-color: var(--accent);
+    background-clip: unset;
+}
+
+@keyframes flicker {
+    0%,95%,100% { opacity: 1; }
+    96% { opacity: 0.85; }
+    97% { opacity: 1; }
+    98% { opacity: 0.9; }
+    99% { opacity: 1; }
+}
+
+body.theme-002 .header-text h1 {
+    font-family: 'VT323', monospace;
+    font-size: 38px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    color: var(--accent-bright);
+    text-shadow: var(--glow-sm);
+}
+
+body.theme-002 .header-text p {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    color: var(--accent-dim);
+    margin-top: 10px;
+    max-width: 520px;
+    line-height: 1.7;
+}
+
+body.theme-002 .badge {
+    background: transparent;
+    border: 1px solid var(--accent-dim);
+    color: var(--accent-dim);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 0;
+    margin-bottom: 12px;
+}
+
+/* Main theme-002 */
+body.theme-002 main {
+    padding: 36px 48px 80px;
+}
+
+/* Table theme-002 */
+body.theme-002 .table-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 0;
+}
+
+body.theme-002 thead {
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+}
+
+body.theme-002 thead th {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--accent-dim);
+    padding: 16px 24px;
+    font-weight: 400;
+}
+
+body.theme-002 tbody tr:hover {
+    background: rgba(51,255,51,0.03);
+}
+
+body.theme-002 .concept-name {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 14px;
+    color: var(--accent-bright);
+    text-shadow: var(--glow-sm);
+}
+
+body.theme-002 .concept-tag {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--text-dim);
+    padding: 1px 6px;
+    border-radius: 0;
+    letter-spacing: 1px;
+}
+
+body.theme-002 .concept-tag.green {
+    color: var(--accent-dim);
+    border-color: var(--accent-dim);
+}
+
+body.theme-002 .concept-tag.pink {
+    color: var(--accent);
+    border-color: var(--border);
+}
+
+body.theme-002 .td-desc {
+    font-size: 13px;
+    color: var(--accent-dim);
+    line-height: 1.7;
+}
+
+body.theme-002 .td-desc code {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    background: var(--surface2);
+    color: var(--accent);
+    padding: 1px 5px;
+    border: 1px solid var(--border);
+    border-radius: 0;
+}
+
+body.theme-002 .td-desc em {
+    color: var(--accent);
+    font-style: normal;
+    text-shadow: var(--glow-sm);
+}
+
+/* Magnify button theme-002 */
+body.theme-002 .btn-magnify {
+    width: 38px;
+    height: 38px;
+    border-radius: 0;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--accent-dim);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+    font-size: 16px;
+}
+
+body.theme-002 .btn-magnify:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--surface3);
+    box-shadow: var(--glow);
+    transform: none;
+}
+
+/* Modal theme-002 */
+body.theme-002 .modal-overlay {
+    backdrop-filter: none;
+}
+
+body.theme-002 .modal {
+    background: var(--surface);
+    border: 1px solid var(--accent-dim);
+    border-top: none;
+    box-shadow: 0 0 40px rgba(51,255,51,0.15), 0 20px 60px rgba(0,0,0,0.8);
+    border-radius: 0;
+}
+
+body.theme-002 .modal-header {
+    padding: 18px 24px;
+}
+
+body.theme-002 .modal-title-icon {
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    border: 1px solid var(--accent);
+    border-radius: 0;
+    font-family: 'VT323', monospace;
+    font-size: 22px;
+    color: var(--accent);
+    text-shadow: var(--glow-sm);
+}
+
+body.theme-002 .modal-title {
+    font-family: 'VT323', monospace;
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    color: var(--accent-bright);
+    text-shadow: var(--glow-sm);
+}
+
+body.theme-002 .btn-close {
+    width: 30px;
+    height: 30px;
+    border-radius: 0;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    transition: all 0.15s;
+    line-height: 1;
+    font-family: 'Share Tech Mono', monospace;
+}
+
+body.theme-002 .btn-close:hover {
+    border-color: var(--accent-bright);
+    color: var(--accent-bright);
+    background: var(--surface3);
+    box-shadow: var(--glow-sm);
+}
+
+/* Prism theme-002 overrides */
+body.theme-002 .modal-body pre[class*="language-"] {
+    border-radius: 0 !important;
+    text-shadow: 0 0 4px rgba(51,255,51,0.4) !important;
+}
+
+body.theme-002 .modal-body code[class*="language-"],
+body.theme-002 .modal-body pre[class*="language-"] * {
+    font-family: 'Share Tech Mono', monospace !important;
+    color: var(--accent) !important;
+    text-shadow: 0 0 4px rgba(51,255,51,0.3) !important;
+}
+
+body.theme-002 .token.comment,
+body.theme-002 .token.prolog,
+body.theme-002 .token.doctype,
+body.theme-002 .token.cdata {
+    color: var(--text-muted) !important;
+    text-shadow: none !important;
+}
+
+body.theme-002 .token.keyword,
+body.theme-002 .token.operator {
+    color: var(--accent-bright) !important;
+    text-shadow: var(--glow-sm) !important;
+}
+
+body.theme-002 .token.string,
+body.theme-002 .token.attr-value {
+    color: #66ff88 !important;
+}
+
+body.theme-002 .token.number,
+body.theme-002 .token.boolean {
+    color: var(--accent-hi) !important;
+    text-shadow: 0 0 6px rgba(204,255,204,0.6) !important;
+}
+
+body.theme-002 .token.function {
+    color: #99ffcc !important;
+    text-shadow: 0 0 5px rgba(153,255,204,0.5) !important;
+}
+
+body.theme-002 .token.punctuation {
+    color: var(--accent-dim) !important;
+    text-shadow: none !important;
+}
+
+/* Modal results theme-002 */
+body.theme-002 .result-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent-bright);
+    padding: 9px 16px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    text-shadow: var(--glow-sm);
+}
+
+body.theme-002 .result-content {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    line-height: 1.9;
+    background: var(--code-bg);
+}
+
+body.theme-002 .result-line .arrow {
+    color: var(--accent-bright);
+    text-shadow: var(--glow-sm);
+}
+
+body.theme-002 .result-line .value {
+    color: var(--accent-hi);
+    text-shadow: 0 0 6px rgba(204,255,204,0.5);
+}
+
+/* Modal footer theme-002 */
+body.theme-002 .modal-footer {
+    padding: 14px 24px;
+}
+
+body.theme-002 .footer-info {
+    font-size: 11px;
+    letter-spacing: 1px;
+}
+
+body.theme-002 .btn-toggle {
+    padding: 8px 18px;
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-shadow: var(--glow-sm);
+    border-radius: 0;
+}
+
+body.theme-002 .btn-toggle:hover {
+    background: var(--surface3);
+    box-shadow: var(--glow);
+    color: var(--accent-bright);
+    border-color: var(--accent-bright);
+    transform: none;
+}
+
+body.theme-002 .btn-toggle.active {
+    background: var(--surface3);
+    border-color: var(--accent-bright);
+    color: var(--accent-bright);
+    box-shadow: var(--glow);
+}
+
+/* Scrollbar phosphor style per theme-002 */
+body.theme-002 ::-webkit-scrollbar { width: 6px; }
+body.theme-002 ::-webkit-scrollbar-track { background: var(--bg); }
+body.theme-002 ::-webkit-scrollbar-thumb { background: var(--border); }
+body.theme-002 ::-webkit-scrollbar-thumb:hover { background: var(--accent-dim); }
+
+/* ============================================
+    TESTO SELEZIONATO - TEMA DEFAULT (moderno)
+    ============================================ */
+    
+::selection {
+    background: var(--accent);
+    color: var(--bg);
+    text-shadow: none;
+}
+
+::-moz-selection {
+    background: var(--accent);
+    color: var(--bg);
+    text-shadow: none;
+}
+
+/* Versione più morbida per elementi specifici (opzionale) */
+.concept-name::selection,
+.header-lambda::selection {
+    background: var(--accent2);
+    color: var(--bg);
+}
+
+
+/* ============================================
+    TESTO SELEZIONATO - TEMA 2 (retrò phosphor)
+    ============================================ */
+    
+body.theme-002 ::selection {
+    background: var(--accent-bright);
+    color: var(--bg);
+    text-shadow: 0 0 4px var(--accent-bright);
+}
+
+body.theme-002 ::-moz-selection {
+    background: var(--accent-bright);
+    color: var(--bg);
+    text-shadow: 0 0 4px var(--accent-bright);
+}
+
+/* Effetto "glow" sul testo selezionato per il tema retrò */
+body.theme-002 .concept-name::selection,
+body.theme-002 .header-lambda::selection {
+    background: var(--accent);
+    color: #000000;
+    text-shadow: 0 0 6px var(--accent-bright);
+}
+
+/* Per il codice e testo monospaziato nel tema retrò */
+body.theme-002 code::selection,
+body.theme-002 pre::selection,
+body.theme-002 .modal-body *::selection {
+    background: #33ff33;
+    color: #000800;
+    text-shadow: 0 0 8px #99ff99;
+}
+
+/* ============================================
+    TOGGLE BUTTON CON MONITOR ANIMATION
+    ============================================ */
+
+.theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px 10px 16px;
+    background: rgba(124, 109, 250, 0.15);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    cursor: pointer;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+}
+
+.theme-toggle:hover {
+    transform: translateY(-2px);
+    background: rgba(124, 109, 250, 0.25);
+    border-color: var(--accent);
+    box-shadow: 0 4px 20px rgba(124, 109, 250, 0.3);
+}
+
+.theme-toggle:active {
+    transform: translateY(0);
+}
+
+/* Icona monitor base */
+.monitor-icon {
+    position: relative;
+    width: 22px;
+    height: 18px;
+    display: inline-block;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Schermo del monitor */
+.monitor-icon::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 13px;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+/* Base del monitor */
+.monitor-icon::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 4px;
+    background: currentColor;
+    border-radius: 1px;
+    transition: all 0.3s ease;
+}
+
+/* ============================================
+    MONITOR MODERNO (stile default)
+    ============================================ */
+
+.monitor-icon.modern::before {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    box-shadow: 0 0 0 1px rgba(124, 109, 250, 0.3);
+}
+
+/* Effetto lucentezza sul vetro */
+.monitor-icon.modern {
+    animation: monitorPulse 2s ease-in-out infinite;
+}
+
+.monitor-icon.modern::before {
+    background: linear-gradient(135deg, #7c6dfa, #fa6d8e);
+}
+
+/* Riflesso sullo schermo moderno */
+.monitor-icon.modern .screen-reflection {
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    right: 1px;
+    height: 4px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.4), rgba(255,255,255,0));
+    border-radius: 1px;
+    pointer-events: none;
+}
+
+/* ============================================
+    MONITOR RETRÒ (tema 2)
+    ============================================ */
+
+body.theme-002 .theme-toggle {
+    background: rgba(51, 255, 51, 0.1);
+    border-color: var(--border);
+    color: var(--accent);
+    font-family: 'Share Tech Mono', monospace;
+}
+
+body.theme-002 .theme-toggle:hover {
+    background: rgba(51, 255, 51, 0.2);
+    border-color: var(--accent);
+    box-shadow: 0 0 20px rgba(51, 255, 51, 0.3);
+}
+
+/* Monitor retrò */
+.monitor-icon.retro::before {
+    background: #0f3b0f;
+    box-shadow: 
+    0 0 0 1px #33ff33,
+    inset 0 0 4px rgba(51, 255, 51, 0.5);
+    border-radius: 2px;
+}
+
+/* Effetto scanlines sul monitor retrò */
+.monitor-icon.retro {
+    animation: retroFlicker 3s infinite;
+}
+
+.monitor-icon.retro::before {
+    background: #0a2a0a;
+    background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 1px,
+    rgba(51, 255, 51, 0.15) 1px,
+    rgba(51, 255, 51, 0.15) 2px
+    );
+}
+
+/* Base del monitor retrò (più spessa) */
+.monitor-icon.retro::after {
+    width: 8px;
+    height: 5px;
+    background: #33ff33;
+    bottom: -5px;
+    box-shadow: 0 0 4px #33ff33;
+}
+
+/* Glow del monitor retrò */
+.monitor-icon.retro {
+    filter: drop-shadow(0 0 2px #33ff33);
+}
+
+/* Pulsante verde acceso nel monitor retrò */
+.monitor-icon.retro .power-led {
+    position: absolute;
+    bottom: -3px;
+    right: -2px;
+    width: 3px;
+    height: 3px;
+    background: #33ff33;
+    border-radius: 50%;
+    box-shadow: 0 0 4px #33ff33;
+    animation: ledBlink 2s infinite;
+}
+
+/* ============================================
+    ANIMAZIONI
+    ============================================ */
+
+/* Animazione monitor moderno */
+@keyframes monitorPulse {
+    0%, 100% {
+    filter: drop-shadow(0 0 0px rgba(124, 109, 250, 0));
+    }
+    50% {
+    filter: drop-shadow(0 0 3px rgba(124, 109, 250, 0.5));
+    }
+}
+
+/* Animazione flicker monitor retrò */
+@keyframes retroFlicker {
+    0%, 94%, 96%, 100% {
+    opacity: 1;
+    }
+    95% {
+    opacity: 0.85;
+    }
+    97% {
+    opacity: 0.95;
+    }
+}
+
+/* Animazione LED */
+@keyframes ledBlink {
+    0%, 100% {
+    opacity: 1;
+    }
+    50% {
+    opacity: 0.4;
+    }
+}
+
+/* Transizione cambio tema */
+.theme-toggle .monitor-icon {
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.theme-toggle .toggle-text {
+    transition: opacity 0.2s;
+}
+
+/* Effetto di scorrimento del testo al cambio tema */
+body.theme-002 .theme-toggle .toggle-text {
+    letter-spacing: 1px;
+    text-shadow: 0 0 4px #33ff33;
+}
+
+/* ============================================
+    RESPONSIVE — TABLET (≤ 768px)
+    ============================================ */
+
+@media (max-width: 768px) {
+
+    /* Header */
+    header {
+    padding: 56px 20px 28px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    }
+
+    .header-lambda {
+    font-size: 72px;
+    letter-spacing: -2px;
+    line-height: 1;
+    margin-bottom: 8px;
+    }
+
+    body.theme-002 .header-lambda {
+    font-size: 80px;
+    }
+
+    .header-text h1 {
+    font-size: 22px;
+    }
+
+    body.theme-002 .header-text h1 {
+    font-size: 26px;
+    }
+
+    .header-text p {
+    font-size: 13px;
+    max-width: 100%;
+    }
+
+    /* Main */
+    main {
+    padding: 24px 16px 60px;
+    }
+
+    body.theme-002 main {
+    padding: 20px 16px 60px;
+    }
+
+    /* Theme toggle — sposta a sinistra su mobile per non coprire il testo */
+    .theme-toggle {
+    top: 18px;
+    right: 62px;
+    padding: 8px 14px 8px 12px;
+    font-size: 11px;
+    gap: 7px;
+    }
+
+    .toggle-text {
+    display: none; /* nasconde il testo, lascia solo l'icona su schermi piccoli */
+    }
+
+    /* Tabella: layout a card su mobile */
+    .table-wrap {
+    border-radius: 6px;
+    overflow: hidden;
+    }
+
+    table, thead, tbody, tr, td, th {
+    display: block;
+    }
+
+    thead {
+    display: none; /* nasconde l'intestazione classica */
+    }
+
+    tbody tr {
+    border-bottom: 1px solid var(--border);
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    }
+
+    td {
+    padding: 14px 16px;
+    width: 100% !important;
+    }
+
+    .td-concept {
+    width: 100% !important;
+    padding-bottom: 6px;
+    }
+
+    .td-desc {
+    padding-top: 0;
+    padding-bottom: 10px;
+    font-size: 13px;
+    }
+
+    .td-actions {
+    width: 100% !important;
+    text-align: left;
+    padding-top: 0;
+    padding-bottom: 16px;
+    }
+
+    .btn-magnify {
+    width: 100%;
+    height: 40px;
+    border-radius: 4px;
+    font-size: 14px;
+    gap: 8px;
+    }
+
+    /* Aggiunge label testuale al bottone su mobile */
+    .btn-magnify::after {
+    content: " Esplora concetto";
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    }
+
+    body.theme-002 .btn-magnify {
+    border-radius: 0;
+    width: 100%;
+    height: 40px;
+    }
+
+    /* Modal */
+    .modal {
+    width: 100%;
+    max-width: 100%;
+    max-height: 100vh;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    }
+
+    .modal-overlay {
+    align-items: flex-start;
+    }
+
+    .modal-header {
+    padding: 16px 18px;
+    }
+
+    .modal-body {
+    padding: 16px;
+    }
+
+    .modal-body pre {
+    font-size: 12px !important;
+    overflow-x: auto;
+    }
+
+    .modal-footer {
+    padding: 12px 16px;
+    flex-wrap: wrap;
+    gap: 10px;
+    }
+
+    .footer-info {
+    font-size: 11px;
+    }
+
+    .btn-toggle {
+    padding: 9px 16px;
+    font-size: 12px;
+    width: 100%;
+    justify-content: center;
+    }
+
+    .result-content {
+    padding: 12px;
+    font-size: 12px;
+    }
+
+    .result-line {
+    flex-wrap: wrap;
+    gap: 4px;
+    }
+
+    /* Glow orb ridotti */
+    body::after {
+    width: 300px;
+    height: 300px;
+    top: -100px;
+    left: -100px;
+    }
+
+    .glow-orb-2 {
+    width: 250px;
+    height: 250px;
+    bottom: -80px;
+    right: -80px;
+    }
+}
+
+/* ============================================
+    RESPONSIVE — SMARTPHONE (≤ 480px)
+    ============================================ */
+
+@media (max-width: 480px) {
+
+    header {
+    padding: 50px 14px 22px;
+    }
+
+    .header-lambda {
+    font-size: 56px;
+    }
+
+    body.theme-002 .header-lambda {
+    font-size: 64px;
+    }
+
+    .header-text h1 {
+    font-size: 19px;
+    }
+
+    .header-text p {
+    font-size: 12.5px;
+    line-height: 1.55;
+    }
+
+    .badge {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    padding: 3px 9px;
+    }
+
+    main {
+    padding: 16px 10px 50px;
+    }
+
+    td {
+    padding: 12px 12px;
+    }
+
+    .concept-name {
+    font-size: 14px;
+    flex-wrap: wrap;
+    }
+
+    .td-desc {
+    font-size: 12.5px;
+    }
+
+    .modal-body pre {
+    font-size: 11.5px !important;
+    }
+
+    .modal-title {
+    font-size: 15px;
+    }
+
+    body.theme-002 .modal-title {
+    font-size: 18px;
+    }
+
+    .modal-title-icon {
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
+    }
+
+    .btn-close {
+    width: 30px;
+    height: 30px;
+    font-size: 15px;
+    }
+}

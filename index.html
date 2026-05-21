@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>λ Calcolo — Guida Interattiva</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet">
+    <link id="main-stylesheet" href="css/stile-unico.css" rel="stylesheet">
+</head>
+<body>
+    <button class="theme-toggle" onclick="toggleTheme()">
+        <span class="monitor-icon modern"></span>
+        <span class="toggle-text">Modalità Moderna</span>
+    </button>
+  <div class="glow-orb-2"></div>
+
+    <header>
+        <div class="header-lambda">λ</div>
+        <div class="header-text">
+            <div class="badge">Guida Interattiva</div>
+            <h1>Calcolo Lambda</h1>
+            <p>Il sistema formale inventato da Alonzo Church negli anni '30. Tutto è una funzione — numeri, booleani, strutture dati. Esplora ogni concetto con codice JavaScript eseguibile.</p>
+        </div>
+    </header>
+
+    <main>
+    <div class="table-wrap">
+        <table>
+        <thead>
+            <tr>
+            <th>Concetto</th>
+            <th>Descrizione</th>
+            <th>Azioni</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+        </table>
+    </div>
+    </main>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal" id="modal">
+            <div class="modal-header">
+                <div class="modal-header-left">
+                    <div class="modal-title-icon">λ</div>
+                    <div class="modal-title" id="modalTitle">Concetto</div>
+                </div>
+                <button class="btn-close" id="btnClose" title="Chiudi">✕</button>
+            </div>
+            <div class="modal-body">
+                <pre><code class="language-javascript" id="modalCode"></code></pre>
+            </div>
+            <div class="modal-footer">
+                <span class="footer-info" id="footerInfo">javascript · lambda calcolo</span>
+                <button class="btn-toggle" id="btnToggle">
+                    <span class="btn-toggle-icon">▼</span>
+                    Mostra Esito
+                </button>
+            </div>
+            <div class="modal-results" id="resultArea">
+                <div class="result-label">▶ Esito Elaborazione</div>
+                <div class="result-content" id="resultContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+<script>
+// ─── DATI ────────────────────────────────────────────────────────────────────
+
+const concepts = [
+  {
+    name: "Astrazione Lambda",
+    tag: "base",
+    tagColor: "",
+    desc: `Il cuore del sistema: una funzione anonima che accetta un parametro. <code>λx. expr</code> in JS diventa <code>x => expr</code>. È pura trasformazione senza stato.`,
+    code: `// λx. x + 1 — la funzione "incrementa"
+const incrementa = x => x + 1;
+
+// λx. x * x — la funzione "quadrato"
+const quadrato = x => x * x;
+
+// Applicazione: (λx. x + 1) 5
+const risultato = (x => x + 1)(5);
+
+// Funzione identità: λx. x
+const identita = x => x;
+
+console.log("incrementa(5):", incrementa(5));
+console.log("quadrato(4):", quadrato(4));
+console.log("(λx. x+1) 5 →", risultato);
+console.log("identita('ciao'):", identita('ciao'));`,
+    run: () => [
+      { label: "incrementa(5)", value: "6" },
+      { label: "quadrato(4)", value: "16" },
+      { label: "(λx. x+1) 5", value: "6" },
+      { label: "identita('ciao')", value: "'ciao'" },
+    ]
+  },
+  {
+    name: "Applicazione",
+    tag: "base",
+    tagColor: "",
+    desc: `Applicare una funzione a un argomento. Nel lambda calcolo <code>(f a)</code> significa "passa <code>a</code> a <code>f</code>". È l'unica operazione del sistema oltre all'astrazione.`,
+    code: `// Applicazione diretta
+const doppio = x => x * 2;
+const risultato1 = doppio(7);       // (λx. x*2) 7
+
+// Applicazione di funzione anonima inline
+const risultato2 = (x => x + 100)(42);
+
+// Funzione che riceve una funzione (ordine superiore)
+const applica = f => x => f(x);    // λf. λx. f x
+const risultato3 = applica(doppio)(5);
+
+console.log("doppio(7):", risultato1);
+console.log("(λx. x+100)(42):", risultato2);
+console.log("applica(doppio)(5):", risultato3);`,
+    run: () => [
+      { label: "doppio(7)", value: "14" },
+      { label: "(λx. x+100)(42)", value: "142" },
+      { label: "applica(doppio)(5)", value: "10" },
+    ]
+  },
+  {
+    name: "Currying",
+    tag: "core",
+    tagColor: "green",
+    desc: `Il lambda calcolo accetta un solo argomento per volta. Funzioni multi-argomento si simulano con funzioni che restituiscono funzioni: <code>λx. λy. x + y</code>. Questa tecnica si chiama <em>currying</em>.`,
+    code: `// (λx. λy. x + y) — funzione curried
+const somma = x => y => x + y;
+
+// Applicazione parziale: prima si passa x=3
+const aggiungi3 = somma(3);         // restituisce λy. 3 + y
+
+// Poi si passa y=7
+const risultato = aggiungi3(7);     // 10
+
+// Uso diretto con entrambi gli argomenti
+const r2 = somma(10)(20);
+
+// Currying con 3 argomenti
+const prodottoSomma = a => b => c => a * b + c;
+const r3 = prodottoSomma(2)(3)(1);
+
+console.log("somma(3)(7):", risultato);
+console.log("somma(10)(20):", r2);
+console.log("aggiungi3(100):", aggiungi3(100));
+console.log("prodottoSomma(2)(3)(1):", r3);`,
+    run: () => [
+      { label: "somma(3)(7)", value: "10" },
+      { label: "somma(10)(20)", value: "30" },
+      { label: "aggiungi3(100)", value: "103" },
+      { label: "prodottoSomma(2)(3)(1)", value: "7" },
+    ]
+  },
+  {
+    name: "β-Riduzione",
+    tag: "core",
+    tagColor: "green",
+    desc: `La regola di calcolo fondamentale: sostituire il parametro formale con l'argomento effettivo. <code>(λx. E) V → E[x := V]</code>. Ogni passo di calcolo è una β-riduzione.`,
+    code: `// Passo 1: (λx. x + 1) 5
+// β-riduzione: sostituisce x con 5
+// → 5 + 1 → 6
+
+// Passo 2: (λx. λy. x + y) 3 4
+// Prima β-riduzione: sostituisce x con 3
+// → (λy. 3 + y) 4
+// Seconda β-riduzione: sostituisce y con 4
+// → 3 + 4 → 7
+
+// Simuliamo i passi esplicitamente
+const passo1_expr = x => x + 1;
+const passo1_risultato = passo1_expr(5);     // β-riduzione
+
+const passo2_expr = x => y => x + y;
+const passo2_intermedio = passo2_expr(3);    // prima β-riduzione
+const passo2_risultato = passo2_intermedio(4); // seconda β-riduzione
+
+console.log("(λx. x+1) 5 =", passo1_risultato);
+console.log("(λx.λy. x+y) 3 4 =", passo2_risultato);
+console.log("passo intermedio (λy. 3+y)(4) =", passo2_intermedio(4));`,
+    run: () => [
+      { label: "(λx. x+1) 5", value: "6" },
+      { label: "(λx.λy. x+y) 3 4", value: "7" },
+      { label: "passo intermedio (λy. 3+y)(4)", value: "7" },
+    ]
+  },
+  {
+    name: "Numeri di Church",
+    tag: "numeri",
+    tagColor: "pink",
+    desc: `I numeri interi codificati come funzioni pure. Il numero <code>n</code> è "applica <code>f</code> esattamente <code>n</code> volte a <code>x</code>". Nessun intero nativo — solo composizione di funzioni.`,
+    code: `// Ogni numero = quante volte si applica f
+const zero  = f => x => x;
+const uno   = f => x => f(x);
+const due   = f => x => f(f(x));
+const tre   = f => x => f(f(f(x)));
+const cinque = f => x => f(f(f(f(f(x)))));
+
+// Decodifica: usa (+1) da 0
+const toInt = n => n(x => x + 1)(0);
+
+// Successore: λn. λf. λx. f(n f x)
+const succ = n => f => x => f(n(f)(x));
+
+// Dimostriamo che sono veri numeri
+console.log("zero  →", toInt(zero));
+console.log("uno   →", toInt(uno));
+console.log("due   →", toInt(due));
+console.log("tre   →", toInt(tre));
+console.log("cinque→", toInt(cinque));
+console.log("succ(tre) →", toInt(succ(tre)));
+console.log("succ(cinque) →", toInt(succ(cinque)));`,
+    run: () => [
+      { label: "toInt(zero)", value: "0" },
+      { label: "toInt(uno)", value: "1" },
+      { label: "toInt(due)", value: "2" },
+      { label: "toInt(tre)", value: "3" },
+      { label: "toInt(cinque)", value: "5" },
+      { label: "toInt(succ(tre))", value: "4" },
+      { label: "toInt(succ(cinque))", value: "6" },
+    ]
+  },
+  {
+    name: "Addizione e Moltiplicazione",
+    tag: "numeri",
+    tagColor: "pink",
+    desc: `Le operazioni aritmetiche come composizione di funzioni. L'addizione applica <code>f</code> prima <code>m</code> volte poi <code>n</code> volte. La moltiplicazione annida le applicazioni.`,
+    code: `const zero  = f => x => x;
+const due   = f => x => f(f(x));
+const tre   = f => x => f(f(f(x)));
+const quattro = f => x => f(f(f(f(x))));
+const toInt = n => n(x => x + 1)(0);
+
+// Addizione: λn. λm. λf. λx. n f (m f x)
+// Prima applica f m volte, poi n volte
+const add = n => m => f => x => n(f)(m(f)(x));
+
+// Moltiplicazione: λn. λm. λf. n(m f)
+// Ripeti "applica f n volte" per m volte
+const mul = n => m => f => n(m(f));
+
+// Potenza: λn. λm. m(n)
+// Eleganzia assoluta — applica n a se stesso m volte
+const pow = n => m => m(n);
+
+console.log("add(due)(tre) →", toInt(add(due)(tre)));
+console.log("add(tre)(quattro) →", toInt(add(tre)(quattro)));
+console.log("mul(due)(tre) →", toInt(mul(due)(tre)));
+console.log("mul(tre)(quattro) →", toInt(mul(tre)(quattro)));
+console.log("pow(due)(tre) → 2³ =", toInt(pow(due)(tre)));
+console.log("pow(tre)(due) → 3² =", toInt(pow(tre)(due)));`,
+    run: () => [
+      { label: "add(due)(tre)", value: "5" },
+      { label: "add(tre)(quattro)", value: "7" },
+      { label: "mul(due)(tre)", value: "6" },
+      { label: "mul(tre)(quattro)", value: "12" },
+      { label: "pow(due)(tre) — 2³", value: "8" },
+      { label: "pow(tre)(due) — 3²", value: "9" },
+    ]
+  },
+  {
+    name: "Booleani di Church",
+    tag: "logica",
+    tagColor: "green",
+    desc: `<code>true</code> e <code>false</code> come funzioni che scelgono tra due opzioni. <code>true</code> sceglie il primo argomento, <code>false</code> il secondo. L'if-then-else emerge naturalmente.`,
+    code: `// true = λa. λb. a  (scegli il primo)
+// false = λa. λb. b  (scegli il secondo)
+const tru  = a => b => a;
+const fls  = a => b => b;
+
+// If-then-else: semplicemente applicare il booleano
+const ifthenelse = cond => a => b => cond(a)(b);
+
+// Operatori logici
+const AND = p => q => p(q)(fls);   // λp.λq. p q false
+const OR  = p => q => p(tru)(q);   // λp.λq. p true q
+const NOT = p => p(fls)(tru);       // λp. p false true
+
+// Decodifica
+const toBool = b => b(true)(false);
+
+console.log("tru →", toBool(tru));
+console.log("fls →", toBool(fls));
+console.log("AND(tru)(fls) →", toBool(AND(tru)(fls)));
+console.log("AND(tru)(tru) →", toBool(AND(tru)(tru)));
+console.log("OR(fls)(tru) →", toBool(OR(fls)(tru)));
+console.log("OR(fls)(fls) →", toBool(OR(fls)(fls)));
+console.log("NOT(tru) →", toBool(NOT(tru)));
+console.log("NOT(fls) →", toBool(NOT(fls)));`,
+    run: () => [
+      { label: "toBool(tru)", value: "true" },
+      { label: "toBool(fls)", value: "false" },
+      { label: "AND(tru)(fls)", value: "false" },
+      { label: "AND(tru)(tru)", value: "true" },
+      { label: "OR(fls)(tru)", value: "true" },
+      { label: "OR(fls)(fls)", value: "false" },
+      { label: "NOT(tru)", value: "false" },
+      { label: "NOT(fls)", value: "true" },
+    ]
+  },
+  {
+    name: "Coppie (Pair)",
+    tag: "strutture",
+    tagColor: "pink",
+    desc: `Strutture dati come funzioni. Una coppia <code>(a, b)</code> è una funzione che, passandogli un selettore, restituisce <code>a</code> o <code>b</code>. I dati sono nascosti dentro chiusure.`,
+    code: `const tru = a => b => a;
+const fls = a => b => b;
+
+// Coppia: λa. λb. λf. f a b
+const pair = a => b => f => f(a)(b);
+
+// Selettori
+const fst = p => p(tru);    // prende il primo
+const snd = p => p(fls);    // prende il secondo
+
+// Creiamo coppie
+const p1 = pair(3)(7);
+const p2 = pair("lambda")("calcolo");
+const p3 = pair(pair(1)(2))(pair(3)(4));   // coppia di coppie!
+
+console.log("fst(pair(3)(7)):", fst(p1));
+console.log("snd(pair(3)(7)):", snd(p1));
+console.log("fst(pair('lambda')('calcolo')):", fst(p2));
+console.log("snd(pair('lambda')('calcolo')):", snd(p2));
+console.log("fst(fst(pair(pair(1)(2))(pair(3)(4)))):", fst(fst(p3)));
+console.log("snd(snd(pair(pair(1)(2))(pair(3)(4)))):", snd(snd(p3)));`,
+    run: () => [
+      { label: "fst(pair(3)(7))", value: "3" },
+      { label: "snd(pair(3)(7))", value: "7" },
+      { label: "fst(pair('lambda')('calcolo'))", value: "'lambda'" },
+      { label: "snd(pair('lambda')('calcolo'))", value: "'calcolo'" },
+      { label: "fst(fst(coppia di coppie))", value: "1" },
+      { label: "snd(snd(coppia di coppie))", value: "4" },
+    ]
+  },
+  {
+    name: "Predecessore e Sottrazione",
+    tag: "numeri",
+    tagColor: "pink",
+    desc: `Il predecessore (<code>n - 1</code>) è l'operazione più complessa. Si usa il trucco delle coppie scorrevoli: si parte da <code>(0,0)</code> e si scorre <code>n</code> volte producendo <code>(n-1, n)</code>.`,
+    code: `const tru  = a => b => a;
+const fls  = a => b => b;
+const pair = a => b => f => f(a)(b);
+const fst  = p => p(tru);
+const snd  = p => p(fls);
+
+const zero = f => x => x;
+const uno  = f => x => f(x);
+const tre  = f => x => f(f(f(x)));
+const cinque = f => x => f(f(f(f(f(x)))));
+const succ = n => f => x => f(n(f)(x));
+const toInt = n => n(x => x + 1)(0);
+
+// Slide: (a,b) → (b, succ(b))
+const slide = p => pair(snd(p))(succ(snd(p)));
+
+// Pred: applica slide n volte da (0,0), prendi il primo
+const pred = n => fst(n(slide)(pair(zero)(zero)));
+
+// Sottrazione: applica pred m volte a n
+const sub = n => m => m(pred)(n);
+
+console.log("pred(uno)  →", toInt(pred(uno)));
+console.log("pred(tre)  →", toInt(pred(tre)));
+console.log("pred(cinque) →", toInt(pred(cinque)));
+console.log("pred(zero) →", toInt(pred(zero)));   // resta 0
+console.log("sub(cinque)(tre) →", toInt(sub(cinque)(tre)));
+console.log("sub(tre)(cinque) →", toInt(sub(tre)(cinque))); // saturata a 0`,
+    run: () => [
+      { label: "pred(uno)", value: "0" },
+      { label: "pred(tre)", value: "2" },
+      { label: "pred(cinque)", value: "4" },
+      { label: "pred(zero)", value: "0  ← saturata" },
+      { label: "sub(cinque)(tre)", value: "2" },
+      { label: "sub(tre)(cinque)", value: "0  ← saturata" },
+    ]
+  },
+  {
+    name: "Combinatore Y (Ricorsione)",
+    tag: "avanzato",
+    tagColor: "",
+    desc: `Nel lambda calcolo puro le funzioni sono anonime e non possono riferirsi a se stesse. Il combinatore Y risolve questo: <code>Y f = f (Y f)</code>. È il punto fisso di una funzione, che abilita la ricorsione.`,
+    code: `// Y combinator — ricorsione senza self-reference
+// Y = λf. (λx. f(x x))(λx. f(x x))
+// In JS serve la forma "lazy" (Z combinator) per evitare loop infiniti
+const Z = f => (x => f(v => x(x)(v)))(x => f(v => x(x)(v)));
+
+// Fattoriale ricorsivo SENZA usare il nome della funzione
+const fattoriale = Z(self => n => n <= 1 ? 1 : n * self(n - 1));
+
+// Fibonacci ricorsivo SENZA usare il nome della funzione
+const fibonacci = Z(self => n => n <= 1 ? n : self(n-1) + self(n-2));
+
+console.log("fattoriale(0):", fattoriale(0));
+console.log("fattoriale(5):", fattoriale(5));
+console.log("fattoriale(7):", fattoriale(7));
+console.log("fibonacci(7):", fibonacci(7));
+console.log("fibonacci(10):", fibonacci(10));`,
+    run: () => [
+      { label: "fattoriale(0)", value: "1" },
+      { label: "fattoriale(5)", value: "120" },
+      { label: "fattoriale(7)", value: "5040" },
+      { label: "fibonacci(7)", value: "13" },
+      { label: "fibonacci(10)", value: "55" },
+    ]
+  },
+];
+
+// ─── RENDERING TABELLA ───────────────────────────────────────────────────────
+
+const tbody = document.getElementById('tableBody');
+
+concepts.forEach((c, i) => {
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td class="td-concept">
+      <div class="concept-name">
+        ${c.name}
+      </div>
+      <div style="margin-top:8px">
+        <span class="concept-tag ${c.tagColor}">${c.tag}</span>
+      </div>
+    </td>
+    <td class="td-desc">${c.desc}</td>
+    <td class="td-actions">
+      <button class="btn-magnify" data-index="${i}" title="Esplora concetto">🔍</button>
+    </td>
+  `;
+  tbody.appendChild(tr);
+});
+
+// ─── MODALE ──────────────────────────────────────────────────────────────────
+
+const overlay   = document.getElementById('modalOverlay');
+const modalTitle= document.getElementById('modalTitle');
+const modalCode = document.getElementById('modalCode');
+const resultArea= document.getElementById('resultArea');
+const resultContent = document.getElementById('resultContent');
+const btnClose  = document.getElementById('btnClose');
+const btnToggle = document.getElementById('btnToggle');
+const footerInfo= document.getElementById('footerInfo');
+
+let currentIndex = null;
+let resultVisible = false;
+
+function openModal(index) {
+  const c = concepts[index];
+  currentIndex = index;
+  resultVisible = false;
+
+  modalTitle.textContent = c.name;
+  modalCode.textContent = c.code;
+  footerInfo.textContent = `javascript · ${c.tag}`;
+
+  // Reset result
+  resultArea.classList.remove('visible');
+  resultContent.innerHTML = '';
+  btnToggle.classList.remove('active');
+  btnToggle.innerHTML = '<span class="btn-toggle-icon">▼</span> Mostra Esito';
+
+  // Highlight
+  Prism.highlightElement(modalCode);
+
+  overlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  overlay.classList.remove('active');
+  document.body.style.overflow = '';
+  currentIndex = null;
+}
+
+function toggleResult() {
+  if (currentIndex === null) return;
+  resultVisible = !resultVisible;
+
+  if (resultVisible) {
+    const c = concepts[currentIndex];
+    const lines = c.run();
+    resultContent.innerHTML = lines.map(l => `
+      <div class="result-line">
+        <span class="arrow">→</span>
+        <span class="label">${l.label}</span>
+        <span style="color:var(--text-muted);margin:0 8px">═</span>
+        <span class="value">${l.value}</span>
+      </div>
+    `).join('');
+    resultArea.classList.add('visible');
+    btnToggle.classList.add('active');
+    btnToggle.innerHTML = '<span class="btn-toggle-icon">▼</span> Nascondi Esito';
+  } else {
+    resultArea.classList.remove('visible');
+    btnToggle.classList.remove('active');
+    btnToggle.innerHTML = '<span class="btn-toggle-icon">▼</span> Mostra Esito';
+  }
+}
+
+// Event listeners
+document.querySelectorAll('.btn-magnify').forEach(btn => {
+  btn.addEventListener('click', () => openModal(+btn.dataset.index));
+});
+
+btnClose.addEventListener('click', closeModal);
+btnToggle.addEventListener('click', toggleResult);
+
+overlay.addEventListener('click', e => {
+  if (e.target === overlay) closeModal();
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+});
+</script>
+<script>
+function toggleTheme() {
+    const body = document.body;
+    const btn = document.querySelector('.theme-toggle');
+    const monitorIcon = document.querySelector('.monitor-icon');
+    const toggleText = document.querySelector('.toggle-text');
+    
+    if (body.classList.contains('theme-002')) {
+        // Passa al tema moderno (default)
+        body.classList.remove('theme-002');
+        
+        // Cambia icona e testo
+        monitorIcon.className = 'monitor-icon modern';
+        toggleText.textContent = 'Moderno';
+        
+        // Aggiorna lo stile del pulsante
+        btn.style.animation = 'none';
+        setTimeout(() => { btn.style.animation = ''; }, 10);
+        
+        localStorage.setItem('theme', '001');
+    } else {
+        // Passa al tema retrò
+        body.classList.add('theme-002');
+        
+        // Cambia icona e testo
+        monitorIcon.className = 'monitor-icon retro';
+        toggleText.textContent = 'Retrò';
+        
+        // Aggiunge il LED al monitor retrò se non esiste
+        if (!monitorIcon.querySelector('.power-led')) {
+            const led = document.createElement('span');
+            led.className = 'power-led';
+            monitorIcon.appendChild(led);
+        }
+        
+        localStorage.setItem('theme', '002');
+    }
+    
+    // Aggiunge effetto di click
+    btn.style.transform = 'scale(0.95)';
+    setTimeout(() => {
+        btn.style.transform = '';
+    }, 150);
+}
+
+// Ripristina lo stato salvato all'avvio
+window.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('theme');
+    const monitorIcon = document.querySelector('.monitor-icon');
+    const toggleText = document.querySelector('.toggle-text');
+    
+    if (savedTheme === '002') {
+        document.body.classList.add('theme-002');
+        monitorIcon.className = 'monitor-icon retro';
+        toggleText.textContent = 'Retrò';
+        
+        // Aggiunge il LED
+        if (!monitorIcon.querySelector('.power-led')) {
+            const led = document.createElement('span');
+            led.className = 'power-led';
+            monitorIcon.appendChild(led);
+        }
+    } else {
+        monitorIcon.className = 'monitor-icon modern';
+        toggleText.textContent = 'Moderno';
+    }
+});
+</script>
+</html>
