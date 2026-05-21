@@ -11,7 +11,7 @@
 
 ## 📺 Demo
 
-Apri direttamente `lambda-calcolo.html` nel browser — nessun server, nessuna dipendenza locale.
+Apri direttamente `index.html`.
 
 ---
 

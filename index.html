@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>λ Calcolo — Guida Interattiva</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet">
-    <link id="main-stylesheet" href="css/stile-unico.css" rel="stylesheet">
+    <link href="css/stile.css" rel="stylesheet">
 </head>
 <body>
     <button class="theme-toggle" onclick="toggleTheme()">
-        <span class="monitor-icon modern"></span>
-        <span class="toggle-text">Modalità Moderna</span>
+        <span class="monitor-icon retro"></span>
+        <span class="toggle-text">Retrò</span>
     </button>
   <div class="glow-orb-2"></div>
 
@@ -529,8 +529,8 @@ function toggleTheme() {
         body.classList.remove('theme-002');
         
         // Cambia icona e testo
-        monitorIcon.className = 'monitor-icon modern';
-        toggleText.textContent = 'Moderno';
+        monitorIcon.className = 'monitor-icon retro';
+        toggleText.textContent = 'Retrò';
         
         // Aggiorna lo stile del pulsante
         btn.style.animation = 'none';
@@ -542,8 +542,8 @@ function toggleTheme() {
         body.classList.add('theme-002');
         
         // Cambia icona e testo
-        monitorIcon.className = 'monitor-icon retro';
-        toggleText.textContent = 'Retrò';
+        monitorIcon.className = 'monitor-icon modern';
+        toggleText.textContent = 'Moderno';
         
         // Aggiunge il LED al monitor retrò se non esiste
         if (!monitorIcon.querySelector('.power-led')) {
@@ -570,8 +570,8 @@ window.addEventListener('DOMContentLoaded', () => {
     
     if (savedTheme === '002') {
         document.body.classList.add('theme-002');
-        monitorIcon.className = 'monitor-icon retro';
-        toggleText.textContent = 'Retrò';
+        monitorIcon.className = 'monitor-icon modern';
+        toggleText.textContent = 'Moderno';
         
         // Aggiunge il LED
         if (!monitorIcon.querySelector('.power-led')) {
@@ -580,8 +580,8 @@ window.addEventListener('DOMContentLoaded', () => {
             monitorIcon.appendChild(led);
         }
     } else {
-        monitorIcon.className = 'monitor-icon modern';
-        toggleText.textContent = 'Moderno';
+        monitorIcon.className = 'monitor-icon retro';
+        toggleText.textContent = 'Retrò';
     }
 });
 </script>
