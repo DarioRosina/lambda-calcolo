@@ -1451,3 +1451,7 @@ body.theme-002 .theme-toggle .toggle-text {
     font-size: 15px;
     }
 }
+
+.linkLogo{
+    text-decoration: none;
+}
