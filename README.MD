@@ -11,28 +11,9 @@
 
 ## 📺 Demo
 
-Apri direttamente `index.html`.
+**Demo Online:** Prova la versione live qui: [https://lambda.darioros.it](https://lambda.darioros.it/)
 
----
-
-## 🖥️ Screenshot
-
-```
-┌─────────────────────────────────────────────────────────┐
-│                                                         │
-│   λ   CALCOLO LAMBDA                                    │
-│       Guida Interattiva                                 │
-│                                                         │
-│  ┌──────────────────┬───────────────────┬────────┐      │
-│  │ CONCETTO         │ DESCRIZIONE       │ AZIONI │      │
-│  ├──────────────────┼───────────────────┼────────┤      │
-│  │ Astrazione Lambda│ Il cuore del...   │  [🔍]  │      │
-│  │ Applicazione     │ Applicare una...  │  [🔍]  │      │
-│  │ Currying         │ Il lambda calc... │  [🔍]  │      │
-│  │ ...              │ ...               │  [🔍]  │      │
-│  └──────────────────┴───────────────────┴────────┘      │
-└─────────────────────────────────────────────────────────┘
-```
+![Anteprima Interfaccia](screenshot/lambdaCalcolo.gif)
 
 ---
 
